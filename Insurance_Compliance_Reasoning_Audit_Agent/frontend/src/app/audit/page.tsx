@@ -117,7 +117,7 @@ function AuditContent() {
               placeholder="Enter Workflow ID (leave empty to see all)"
               value={workflowId}
               onChange={(e) => setWorkflowId(e.target.value)}
-              className="flex-1 rounded-md border-slate-300 shadow-sm p-2 border"
+              className="flex-1 rounded-md border-slate-300 shadow-sm p-2 border text-gray-500"
             />
             <button
               type="submit"
@@ -155,7 +155,7 @@ function AuditContent() {
                   </span>
                 </div>
                 <p className="text-sm font-semibold text-slate-900 truncate">Workflow: {decision.workflow_id}</p>
-                <p className="text-xs text-slate-500 mt-1">{new Date(decision.created_at).toLocaleString()}</p>
+                <p className="text-xs text-slate-600 mt-1 font-medium">{new Date(decision.created_at).toLocaleString()}</p>
               </div>
             ))}
           </div>
@@ -167,7 +167,7 @@ function AuditContent() {
                 <div className="flex justify-between items-start mb-6">
                   <div>
                     <h2 className="text-2xl font-bold text-slate-900">Audit Detail</h2>
-                    <p className="text-slate-500">Workflow ID: {selectedDecision.workflow_id}</p>
+                    <p className="text-slate-700 font-medium">Workflow ID: {selectedDecision.workflow_id}</p>
                   </div>
                   <div className="flex gap-2">
                     <button 
@@ -182,22 +182,22 @@ function AuditContent() {
                 <div className="space-y-8">
                   {/* Event Data */}
                   <div>
-                    <h3 className="text-sm font-semibold text-slate-500 uppercase mb-3 border-b pb-1">Workflow Event Data</h3>
+                    <h3 className="text-sm font-bold text-slate-600 uppercase mb-3 border-b pb-1">Workflow Event Data</h3>
                     {workflowEvent ? (
                       <div className="bg-slate-50 p-4 rounded border border-slate-100 space-y-3">
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <p className="text-xs text-slate-400 font-medium uppercase">Type</p>
-                            <p className="text-sm font-medium">{workflowEvent.workflow_type}</p>
+                            <p className="text-xs text-slate-600 font-bold uppercase">Type</p>
+                            <p className="text-sm font-semibold text-slate-800">{workflowEvent.workflow_type}</p>
                           </div>
                           <div>
-                            <p className="text-xs text-slate-400 font-medium uppercase">Actor</p>
-                            <p className="text-sm font-medium">{workflowEvent.actor_id}</p>
+                            <p className="text-xs text-slate-600 font-bold uppercase">Actor</p>
+                            <p className="text-sm font-semibold text-slate-800">{workflowEvent.actor_id}</p>
                           </div>
                         </div>
                         <div>
-                          <p className="text-xs text-slate-400 font-medium uppercase mb-1">Attributes</p>
-                          <pre className="text-xs bg-white p-3 rounded border border-slate-200 overflow-x-auto font-mono">
+                          <p className="text-xs text-slate-600 font-bold uppercase mb-1">Attributes</p>
+                          <pre className="text-xs bg-white p-3 rounded border border-slate-200 overflow-x-auto font-mono text-slate-800">
                             {JSON.stringify(workflowEvent.attributes, null, 2)}
                           </pre>
                         </div>
@@ -209,13 +209,13 @@ function AuditContent() {
 
                   {/* Reasoning Trace */}
                   <div>
-                    <h3 className="text-sm font-semibold text-slate-500 uppercase mb-3 border-b pb-1">AI Reasoning Trace</h3>
+                    <h3 className="text-sm font-bold text-slate-600 uppercase mb-3 border-b pb-1">AI Reasoning Trace</h3>
                     <div className="space-y-4">
                       {selectedDecision.reasoning_trace.map((trace: any, idx: number) => (
                         <div key={idx} className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
                           <div className="flex justify-between items-center mb-3">
                             <p className="font-bold text-slate-800">{trace.rule_id}</p>
-                            <span className="text-xs text-slate-400">v{selectedDecision.rule_versions[trace.rule_id]}</span>
+                            <span className="text-xs text-slate-600 font-bold">v{selectedDecision.rule_versions[trace.rule_id]}</span>
                           </div>
                           <div className="space-y-3">
                             {trace.steps?.map((s: any, sIdx: number) => (
@@ -224,14 +224,14 @@ function AuditContent() {
                                   <div className={`w-2 h-2 rounded-full mt-1.5 ${
                                     s.result.includes('Failed') || s.result.includes('Violation') ? 'bg-red-500' : 'bg-green-500'
                                   }`}></div>
-                                  {sIdx < trace.steps.length - 1 && <div className="w-0.5 flex-1 bg-slate-100 my-1"></div>}
+                                  {sIdx < trace.steps.length - 1 && <div className="w-0.5 flex-1 bg-slate-200 my-1"></div>}
                                 </div>
                                 <div className="pb-2">
-                                  <p className="text-xs font-bold text-slate-700">{s.step}</p>
-                                  <p className={`text-xs font-medium ${
-                                    s.result.includes('Failed') || s.result.includes('Violation') ? 'text-red-600' : 'text-green-600'
+                                  <p className="text-xs font-bold text-slate-800">{s.step}</p>
+                                  <p className={`text-xs font-bold ${
+                                    s.result.includes('Failed') || s.result.includes('Violation') ? 'text-red-700' : 'text-green-700'
                                   }`}>{s.result}</p>
-                                  {s.detail && <p className="text-xs text-slate-500 mt-0.5 italic">{s.detail}</p>}
+                                  {s.detail && <p className="text-xs text-slate-600 mt-0.5 italic font-medium">{s.detail}</p>}
                                 </div>
                               </div>
                             ))}
@@ -247,7 +247,7 @@ function AuditContent() {
                     selectedDecision.decision === 'NON_COMPLIANT' ? 'bg-red-50 border-red-200' :
                     'bg-yellow-50 border-yellow-200'
                   }`}>
-                    <p className="text-xs font-bold uppercase text-slate-500 mb-1">Final Compliance Decision</p>
+                    <p className="text-xs font-bold uppercase text-slate-700 mb-1">Final Compliance Decision</p>
                     <p className={`text-2xl font-black ${
                       selectedDecision.decision === 'COMPLIANT' ? 'text-green-700' :
                       selectedDecision.decision === 'NON_COMPLIANT' ? 'text-red-700' :

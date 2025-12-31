@@ -16,7 +16,6 @@ export default function Navbar() {
         <Link href="/dashboard" className="text-xl font-bold">Compliance Audit</Link>
         <div className="space-x-6 flex items-center">
           <Link href="/rules" className="hover:text-slate-300">Rules</Link>
-          <Link href="/workflows" className="hover:text-slate-300">Workflows</Link>
           <Link href="/audit" className="hover:text-slate-300">Audit Trail</Link>
           <Link href="/metrics" className="hover:text-slate-300">Metrics</Link>
           <button 

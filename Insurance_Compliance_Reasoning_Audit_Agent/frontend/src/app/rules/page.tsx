@@ -80,7 +80,7 @@ export default function RulesPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-1">
             <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
-              <h2 className="text-xl font-semibold mb-4">Create New Rule</h2>
+              <h2 className="text-xl font-semibold mb-4 text-gray-900">Create New Rule</h2>
               {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
@@ -89,7 +89,7 @@ export default function RulesPage() {
                     type="text"
                     value={newRule.rule_id}
                     onChange={(e) => setNewRule({...newRule, rule_id: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border"
+                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border text-gray-900"
                     required
                   />
                 </div>
@@ -98,7 +98,7 @@ export default function RulesPage() {
                   <select
                     value={newRule.category}
                     onChange={(e) => setNewRule({...newRule, category: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border"
+                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border text-gray-600"
                   >
                     <option value="PRIVACY">PRIVACY</option>
                     <option value="SECURITY">SECURITY</option>
@@ -107,11 +107,11 @@ export default function RulesPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700">Severity</label>
+                  <label className="block text-sm font-medium text-slate-700 ">Severity</label>
                   <select
                     value={newRule.severity}
                     onChange={(e) => setNewRule({...newRule, severity: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border"
+                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border text-gray-600"
                   >
                     <option value="LOW">LOW</option>
                     <option value="MEDIUM">MEDIUM</option>
@@ -124,7 +124,7 @@ export default function RulesPage() {
                     type="text"
                     value={newRule.version}
                     onChange={(e) => setNewRule({...newRule, version: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border"
+                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border text-gray-600"
                     required
                   />
                 </div>
@@ -152,20 +152,20 @@ export default function RulesPage() {
               <table className="min-w-full divide-y divide-slate-200">
                 <thead className="bg-slate-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Rule ID</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Category</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Severity</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Version</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Rule ID</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Category</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Severity</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Version</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-slate-200">
                   {rules.map((rule: any) => (
                     <tr key={rule.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">{rule.rule_id}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{rule.category}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">{rule.category}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                           rule.severity === 'HIGH' ? 'bg-red-100 text-red-800' : 
                           rule.severity === 'MEDIUM' ? 'bg-yellow-100 text-yellow-800' : 
@@ -174,9 +174,9 @@ export default function RulesPage() {
                           {rule.severity}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{rule.version}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{rule.status}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-indigo-600 hover:text-indigo-900 cursor-pointer" onClick={() => handleViewDetails(rule)}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">{rule.version}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">{rule.status}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-indigo-600 font-semibold hover:text-indigo-900 cursor-pointer" onClick={() => handleViewDetails(rule)}>
                         View Details
                       </td>
                     </tr>
@@ -189,13 +189,13 @@ export default function RulesPage() {
               <div className="mt-8 bg-white p-6 rounded-lg shadow-sm border border-slate-200">
                 <div className="flex justify-between items-start mb-4">
                   <h2 className="text-2xl font-bold text-slate-900">Rule Details: {selectedRule.rule_id}</h2>
-                  <button onClick={() => setSelectedRule(null)} className="text-slate-400 hover:text-slate-600">✕</button>
+                  <button onClick={() => setSelectedRule(null)} className="text-slate-600 hover:text-slate-900 font-bold">✕</button>
                 </div>
                 
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-sm font-semibold text-slate-500 uppercase mb-2">Human-Readable Text</h3>
-                    <p className="text-slate-700 bg-slate-50 p-4 rounded border border-slate-100">{selectedRule.rule_text}</p>
+                    <h3 className="text-sm font-bold text-slate-600 uppercase mb-2">Human-Readable Text</h3>
+                    <p className="text-slate-800 bg-slate-50 p-4 rounded border border-slate-100">{selectedRule.rule_text}</p>
                   </div>
 
                   {structuredRules.length > 0 && (
