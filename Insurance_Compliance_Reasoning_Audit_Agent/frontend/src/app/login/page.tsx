@@ -33,9 +33,9 @@ export default function LoginPage() {
         <div>
           <div className="flex items-center space-x-2 mb-8">
             <div className="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center">
-              <span className="text-2xl font-bold">C</span>
+              <span className="text-2xl font-bold">O</span>
             </div>
-            <span className="text-2xl font-bold tracking-tight">ComplianceAI</span>
+            <span className="text-2xl font-bold tracking-tight">OmniNeura</span>
           </div>
           <h2 className="text-4xl font-bold leading-tight mb-6">
             <span className="text-indigo-400">Regulatory Compliance</span> <br />
@@ -73,7 +73,7 @@ export default function LoginPage() {
         </div>
 
         <div className="text-slate-500 text-sm">
-          © 2026 ComplianceAI Systems. All rights reserved.
+          © 2026 OmniNeura Systems. All rights reserved.
         </div>
       </div>
 
@@ -82,9 +82,9 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           <div className="md:hidden flex items-center space-x-2 mb-8 justify-center">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
-              <span className="text-xl font-bold">C</span>
+              <span className="text-xl font-bold">O</span>
             </div>
-            <span className="text-xl font-bold tracking-tight text-slate-900">ComplianceAI</span>
+            <span className="text-xl font-bold tracking-tight text-slate-900">OmniNeura</span>
           </div>
 
           <div className="bg-white p-10 rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100">

@@ -1,0 +1,88 @@
+nohup: ignoring input
+INFO:     Started server process [46645]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-01-01 17:38:45,005 - compliance-audit - INFO - Returning 8 rules to user admin
+2026-01-01 17:38:45,006 - compliance-audit - INFO - Method: GET Path: /rules/ Status: 200 Duration: 21.29ms
+INFO:     127.0.0.1:57808 - "GET /rules/ HTTP/1.1" 200 OK
+2026-01-01 17:40:18,704 - compliance-audit - INFO - Method: POST Path: /token Status: 200 Duration: 217.82ms
+INFO:     127.0.0.1:56650 - "POST /token HTTP/1.1" 200 OK
+2026-01-01 17:40:18,712 - compliance-audit - INFO - Returning 8 rules to user admin
+2026-01-01 17:40:18,712 - compliance-audit - INFO - Method: GET Path: /rules/ Status: 200 Duration: 2.46ms
+INFO:     127.0.0.1:56652 - "GET /rules/ HTTP/1.1" 200 OK
+2026-01-01 17:40:23,281 - compliance-audit - INFO - Method: POST Path: /token Status: 200 Duration: 203.27ms
+INFO:     127.0.0.1:56654 - "POST /token HTTP/1.1" 200 OK
+2026-01-01 17:40:23,291 - compliance-audit - INFO - Method: GET Path: /rules/NYDFS-500.12/structured Status: 200 Duration: 4.44ms
+INFO:     127.0.0.1:56656 - "GET /rules/NYDFS-500.12/structured HTTP/1.1" 200 OK
+2026-01-01 17:40:56,070 - compliance-audit - INFO - Returning 8 rules to user admin
+2026-01-01 17:40:56,071 - compliance-audit - INFO - Method: GET Path: /rules/ Status: 200 Duration: 4.42ms
+INFO:     127.0.0.1:60598 - "GET /rules/ HTTP/1.1" 200 OK
+2026-01-01 17:40:58,841 - compliance-audit - INFO - Method: OPTIONS Path: /dashboard/stats Status: 200 Duration: 0.53ms
+INFO:     127.0.0.1:60598 - "OPTIONS /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:40:58,842 - compliance-audit - INFO - Method: OPTIONS Path: /dashboard/stats Status: 200 Duration: 0.81ms
+INFO:     127.0.0.1:37308 - "OPTIONS /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:40:58,862 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 16.19ms
+INFO:     127.0.0.1:37320 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:40:58,871 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 6.60ms
+INFO:     127.0.0.1:37320 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:41:07,256 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 7.41ms
+INFO:     127.0.0.1:37334 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:42:49,335 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 8.69ms
+INFO:     127.0.0.1:60806 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:42:50,070 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 7.29ms
+INFO:     127.0.0.1:60806 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:42:53,207 - compliance-audit - INFO - Method: OPTIONS Path: /decisions/ Status: 200 Duration: 0.35ms
+INFO:     127.0.0.1:60806 - "OPTIONS /decisions/ HTTP/1.1" 200 OK
+2026-01-01 17:42:53,208 - compliance-audit - INFO - Method: OPTIONS Path: /decisions/ Status: 200 Duration: 0.79ms
+INFO:     127.0.0.1:60820 - "OPTIONS /decisions/ HTTP/1.1" 200 OK
+2026-01-01 17:42:53,218 - compliance-audit - INFO - Method: GET Path: /decisions/ Status: 200 Duration: 4.76ms
+INFO:     127.0.0.1:60828 - "GET /decisions/ HTTP/1.1" 200 OK
+2026-01-01 17:42:53,225 - compliance-audit - INFO - Method: GET Path: /decisions/ Status: 200 Duration: 4.44ms
+INFO:     127.0.0.1:60828 - "GET /decisions/ HTTP/1.1" 200 OK
+2026-01-01 17:42:54,809 - compliance-audit - INFO - Returning 8 rules to user admin
+2026-01-01 17:42:54,810 - compliance-audit - INFO - Method: GET Path: /rules/ Status: 200 Duration: 5.22ms
+INFO:     127.0.0.1:60828 - "GET /rules/ HTTP/1.1" 200 OK
+2026-01-01 17:42:54,815 - compliance-audit - INFO - Returning 8 rules to user admin
+2026-01-01 17:42:54,816 - compliance-audit - INFO - Method: GET Path: /rules/ Status: 200 Duration: 4.36ms
+INFO:     127.0.0.1:60828 - "GET /rules/ HTTP/1.1" 200 OK
+2026-01-01 17:42:57,737 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 7.12ms
+INFO:     127.0.0.1:60828 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:42:57,748 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 9.41ms
+INFO:     127.0.0.1:60828 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:43:03,983 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 5.94ms
+INFO:     127.0.0.1:39840 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:43:04,405 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 5.04ms
+INFO:     127.0.0.1:39840 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:44:16,712 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 9.13ms
+INFO:     127.0.0.1:46086 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:44:39,669 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 8.06ms
+INFO:     127.0.0.1:47454 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:44:58,939 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 9.69ms
+INFO:     127.0.0.1:50642 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:45:42,832 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 10.78ms
+INFO:     127.0.0.1:43790 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:45:52,103 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 13.14ms
+INFO:     127.0.0.1:41526 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:45:54,113 - compliance-audit - INFO - Method: OPTIONS Path: /decisions/WF-008 Status: 200 Duration: 0.14ms
+INFO:     127.0.0.1:41526 - "OPTIONS /decisions/WF-008 HTTP/1.1" 200 OK
+2026-01-01 17:45:54,122 - compliance-audit - INFO - Method: GET Path: /decisions/WF-008 Status: 200 Duration: 6.11ms
+INFO:     127.0.0.1:41530 - "GET /decisions/WF-008 HTTP/1.1" 200 OK
+2026-01-01 17:45:55,499 - compliance-audit - INFO - Method: OPTIONS Path: /workflows/WF-008 Status: 200 Duration: 0.13ms
+INFO:     127.0.0.1:41530 - "OPTIONS /workflows/WF-008 HTTP/1.1" 200 OK
+2026-01-01 17:45:55,505 - compliance-audit - INFO - Method: GET Path: /workflows/WF-008 Status: 200 Duration: 4.38ms
+INFO:     127.0.0.1:41526 - "GET /workflows/WF-008 HTTP/1.1" 200 OK
+2026-01-01 17:46:02,704 - compliance-audit - INFO - Method: GET Path: /workflows/WF-008 Status: 200 Duration: 2.97ms
+INFO:     127.0.0.1:33682 - "GET /workflows/WF-008 HTTP/1.1" 200 OK
+2026-01-01 17:46:04,819 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 13.39ms
+INFO:     127.0.0.1:33682 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:46:04,831 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 9.83ms
+INFO:     127.0.0.1:33698 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:46:07,974 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 8.42ms
+INFO:     127.0.0.1:33698 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:46:20,855 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 12.56ms
+INFO:     127.0.0.1:55928 - "GET /dashboard/stats HTTP/1.1" 200 OK
+2026-01-01 17:46:33,902 - compliance-audit - INFO - Method: POST Path: /token Status: 200 Duration: 193.26ms
+INFO:     127.0.0.1:38190 - "POST /token HTTP/1.1" 200 OK
+2026-01-01 17:46:33,912 - compliance-audit - INFO - Method: GET Path: /dashboard/stats Status: 200 Duration: 5.93ms
+INFO:     127.0.0.1:38196 - "GET /dashboard/stats HTTP/1.1" 200 OK
