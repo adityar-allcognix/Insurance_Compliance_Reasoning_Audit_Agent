@@ -363,11 +363,22 @@ def audit_workflow(
         # AI failures degrade to REQUIRES_REVIEW
         AI_METRICS["reasoning_failures"] += 1
         logger.error(f"AI Reasoning failed for workflow {workflow_id}: {str(e)}")
+        
+        # Provide a structured reason for the failure so the UI can display it
+        reasoning_trace = [{
+            "rule_id": "System Diagnostic",
+            "steps": [{
+                "step": "AI Reasoning Protocol",
+                "result": "Execution Failed",
+                "detail": f"The reasoning agent encountered an error: {str(e)}. A manual override or review is required."
+            }]
+        }]
+
         db_decision = models.ComplianceDecision(
             workflow_id=workflow_id,
             decision=models.DecisionOutcome.REQUIRES_REVIEW,
             violated_rules=[],
-            reasoning_trace=[{"error": f"AI Reasoning failed: {str(e)}"}],
+            reasoning_trace=reasoning_trace,
             rule_versions=rule_versions
         )
         db.add(db_decision)

@@ -211,33 +211,57 @@ function AuditContent() {
                   <div>
                     <h3 className="text-sm font-bold text-slate-600 uppercase mb-3 border-b pb-1">AI Reasoning Trace</h3>
                     <div className="space-y-4">
-                      {selectedDecision.reasoning_trace.map((trace: any, idx: number) => (
-                        <div key={idx} className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-                          <div className="flex justify-between items-center mb-3">
-                            <p className="font-bold text-slate-800">{trace.rule_id}</p>
-                            <span className="text-xs text-slate-600 font-bold">v{selectedDecision.rule_versions[trace.rule_id]}</span>
-                          </div>
-                          <div className="space-y-3">
-                            {trace.steps?.map((s: any, sIdx: number) => (
-                              <div key={sIdx} className="flex gap-3">
-                                <div className="flex flex-col items-center">
-                                  <div className={`w-2 h-2 rounded-full mt-1.5 ${
-                                    s.result.includes('Failed') || s.result.includes('Violation') ? 'bg-red-500' : 'bg-green-500'
-                                  }`}></div>
-                                  {sIdx < trace.steps.length - 1 && <div className="w-0.5 flex-1 bg-slate-200 my-1"></div>}
+                      {selectedDecision.reasoning_trace.length === 0 && (
+                        <p className="text-sm text-slate-500 italic">No reasoning steps recorded for this audit.</p>
+                      )}
+                      {selectedDecision.reasoning_trace.map((trace: any, idx: number) => {
+                        // Handle legacy or specific error formats
+                        if (trace.error || trace.info) {
+                          return (
+                            <div key={idx} className={`p-4 rounded-lg border shadow-sm ${trace.error ? 'bg-red-50 border-red-200' : 'bg-blue-50 border-blue-200'}`}>
+                              <p className={`font-bold ${trace.error ? 'text-red-800' : 'text-blue-800'}`}>
+                                {trace.error ? 'Audit System Error' : 'Audit System Info'}
+                              </p>
+                              <p className={`text-sm mt-1 ${trace.error ? 'text-red-700' : 'text-blue-700'}`}>
+                                {trace.error || trace.info}
+                              </p>
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <div key={idx} className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+                            <div className="flex justify-between items-center mb-3">
+                              <p className="font-bold text-slate-800">{trace.rule_id || 'Unknown Rule'}</p>
+                              <span className="text-xs text-slate-600 font-bold">
+                                {trace.rule_id && selectedDecision.rule_versions[trace.rule_id] ? `v${selectedDecision.rule_versions[trace.rule_id]}` : ''}
+                              </span>
+                            </div>
+                            <div className="space-y-3">
+                              {trace.steps?.map((s: any, sIdx: number) => (
+                                <div key={sIdx} className="flex gap-3">
+                                  <div className="flex flex-col items-center">
+                                    <div className={`w-2 h-2 rounded-full mt-1.5 ${
+                                      s.result?.includes('Failed') || s.result?.includes('Violation') || s.result?.includes('NON_COMPLIANT') ? 'bg-red-500' : 'bg-green-500'
+                                    }`}></div>
+                                    {sIdx < trace.steps.length - 1 && <div className="w-0.5 flex-1 bg-slate-200 my-1"></div>}
+                                  </div>
+                                  <div className="pb-2">
+                                    <p className="text-xs font-bold text-slate-800">{s.step}</p>
+                                    <p className={`text-xs font-bold ${
+                                      s.result?.includes('Failed') || s.result?.includes('Violation') || s.result?.includes('NON_COMPLIANT') ? 'text-red-700' : 'text-green-700'
+                                    }`}>{s.result}</p>
+                                    {s.detail && <p className="text-xs text-slate-600 mt-0.5 italic font-medium">{s.detail}</p>}
+                                  </div>
                                 </div>
-                                <div className="pb-2">
-                                  <p className="text-xs font-bold text-slate-800">{s.step}</p>
-                                  <p className={`text-xs font-bold ${
-                                    s.result.includes('Failed') || s.result.includes('Violation') ? 'text-red-700' : 'text-green-700'
-                                  }`}>{s.result}</p>
-                                  {s.detail && <p className="text-xs text-slate-600 mt-0.5 italic font-medium">{s.detail}</p>}
-                                </div>
-                              </div>
-                            ))}
+                              ))}
+                              {!trace.steps && (
+                                <p className="text-xs text-slate-500 italic">No detailed steps provided for this rule.</p>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
 

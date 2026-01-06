@@ -235,7 +235,7 @@ export default function RulesPage() {
                     <div className="space-y-2">
                       {structuredRules.map((sr: any) => (
                         <div key={sr.id} className="flex justify-between items-center text-sm p-2 border-b border-slate-100">
-                          <span className="font-medium">v{sr.version}</span>
+                          <span className="font-medium text-gray-500">v{sr.version}</span>
                           <span className="text-slate-500">{new Date(sr.created_at).toLocaleDateString()}</span>
                         </div>
                       ))}

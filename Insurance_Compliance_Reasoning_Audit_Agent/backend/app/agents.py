@@ -106,7 +106,10 @@ class ComplianceReasoningAgent:
             4. Exception handling: Do any exceptions apply?
             5. Violation detection: Is there a violation?
 
-            You must provide a step-by-step reasoning trace for each rule.""",
+            You must provide a step-by-step reasoning trace for each rule.
+            CRITICAL: Your 'status' (COMPLIANT/NON_COMPLIANT) must perfectly 
+            match your 'Violation Detection' step. If 'Violation Detection' 
+            is 'No Violation', the status MUST be 'COMPLIANT'.""",
             allow_delegation=False,
             llm=self.llm,
             verbose=True
@@ -143,6 +146,11 @@ class ComplianceReasoningAgent:
 
             For EACH rule, follow the reasoning protocol and determine if 
             it is COMPLIANT or NON_COMPLIANT.
+            
+            CRITICAL CONSISTENCY RULE:
+            - If 'Violation Detection' result is 'No Violation', set status to 'COMPLIANT'.
+            - If 'Violation Detection' result indicates a violation, set status to 'NON_COMPLIANT'.
+            - Rules that are 'Not Applicable' MUST be marked as 'COMPLIANT'.
 
             Output MUST be a valid JSON matching this structure:
             {{
@@ -186,4 +194,11 @@ class ComplianceReasoningAgent:
         elif "```" in raw_output:
             json_str = raw_output.split("```")[1].split("```")[0].strip()
             
-        return json.loads(json_str)
+        try:
+            return json.loads(json_str)
+        except json.JSONDecodeError:
+            # Fallback: simple cleaning for common LLM JSON errors (like trailing commas or unescaped quotes)
+            import re
+            # Remove trailing commas before closing braces/brackets
+            cleaned = re.sub(r',\s*([\]}])', r'\1', json_str)
+            return json.loads(cleaned)

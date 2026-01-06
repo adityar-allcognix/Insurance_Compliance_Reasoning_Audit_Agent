@@ -1,0 +1,22 @@
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc2NzY5MzI1OH0.XVp2dVrCtPpwYS7luY6_3-VhibqECN62uVHasHmJ56I
+
+Workflow Event
+curl -X POST http://localhost:8000/workflows/ \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc2NzY5MzI1OH0.XVp2dVrCtPpwYS7luY6_3-VhibqECN62uVHasHmJ56I" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "workflow_id": "WF-DEMO-2026",
+           "workflow_type": "CLAIM_PROCESSING",
+           "actor_id": "admin_user",
+           "source_system": "manual_trigger",
+           "attributes": {
+             "claim_id": "CLM-AUTO-123",
+             "submission_date": "2026-01-06T12:00:00",
+             "acknowledgment_sent": true,
+             "description": "Auto insurance glass repair claim for audit demo."
+           }
+         }'
+
+trigger AI Compliance Audit
+curl -X POST http://localhost:8000/workflows/WF-DEMO-2026/audit \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc2NzY5MzI1OH0.XVp2dVrCtPpwYS7luY6_3-VhibqECN62uVHasHmJ56I"
