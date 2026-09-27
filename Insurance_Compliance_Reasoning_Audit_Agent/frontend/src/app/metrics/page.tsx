@@ -6,21 +6,28 @@ import { api } from '@/lib/api';
 export default function MetricsPage() {
   const [metrics, setMetrics] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchMetrics = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.getSystemMetrics();
+      if (response.ok) {
+        const data = await response.json();
+        setMetrics(data);
+      } else {
+        setError('Failed to fetch metrics.');
+      }
+    } catch {
+      // ponytail: graceful error banner on network failure; upgrade to auto-reconnect if needed
+      setError('Unable to connect to backend server. Please verify the backend is running at http://localhost:8000.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchMetrics = async () => {
-      try {
-        const response = await api.getSystemMetrics();
-        if (response.ok) {
-          const data = await response.json();
-          setMetrics(data);
-        }
-      } catch (err) {
-        console.error('Failed to fetch metrics', err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchMetrics();
   }, []);
 
@@ -31,6 +38,18 @@ export default function MetricsPage() {
       <Navbar />
       <main className="container mx-auto p-8">
         <h1 className="text-3xl font-bold text-slate-900 mb-8">System Metrics & Observability</h1>
+
+        {error && (
+          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between">
+            <span className="text-sm text-amber-800 font-medium">{error}</span>
+            <button
+              onClick={fetchMetrics}
+              className="px-3 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-sm font-semibold transition"
+            >
+              Retry
+            </button>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">

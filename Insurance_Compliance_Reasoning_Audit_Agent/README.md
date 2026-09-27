@@ -35,21 +35,33 @@ The backend will be available at `http://localhost:8000` and the frontend at `ht
 1. `cd backend`
 2. `pip install -r requirements.txt`
 3. `export OPENAI_API_KEY=your_key`
-4. `uvicorn app.main:app --reload`
+4. `uvicorn app.main:app --reload --host 0.0.0.0 --port 8000`
 
 ### Frontend
 1. `cd frontend`
 2. `npm install`
 3. `npm run dev`
 
-## Testing
-Run the hardening and logic tests:
+## Database Configuration
+By default, the backend supports both SQLite and PostgreSQL.
+- **SQLite (Recommended for quick testing & Docker)**:
+  `DATABASE_URL=sqlite:///./compliance.db`
+- **PostgreSQL**:
+  `DATABASE_URL=postgresql+psycopg2://user:password@localhost/insurance_compliance_db`
+
+## Testing & Verification
+Run the complete automated test suite (16 tests across hardening, rules, reasoning, and replay):
 ```bash
 cd backend
-pytest tests/test_hardening.py
+pytest tests/
 ```
-Run the end-to-end verification:
+
+Seed initial data and run audits:
 ```bash
 cd backend
-python3 test_e2e.py
+python create_admin.py               # Creates default admin user
+python seed_rules.py                 # Seeds baseline regulatory rules
+python interpret_existing_rules.py   # AI translates rules to structured constraints
+python seed_workflows.py             # Seeds sample claims and incident events
+python run_initial_audits.py         # Runs compliance audits on seeded events
 ```

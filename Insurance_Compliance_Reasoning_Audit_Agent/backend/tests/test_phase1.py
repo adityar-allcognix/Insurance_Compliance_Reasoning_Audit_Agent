@@ -1,10 +1,15 @@
+import os
+os.environ["OPENAI_API_KEY"] = "sk-dummy"
+
 import pytest
+from unittest.mock import patch
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.main import app, get_db
+from app.main import app, get_db, get_current_user, policy_interpreter
 from app.database import Base
-from app.models import WorkflowType, RuleCategory, RuleSeverity, RuleStatus
+from app.models import WorkflowType, RuleCategory, RuleSeverity, RuleStatus, User
+from app.schemas import StructuredRuleCreate
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 
@@ -18,15 +23,30 @@ def override_get_db():
     finally:
         db.close()
 
-app.dependency_overrides[get_db] = override_get_db
-
-client = TestClient(app)
+mock_user = User(id=1, username="test_admin")
 
 @pytest.fixture(autouse=True)
-def setup_db():
+def setup_test_env():
     Base.metadata.create_all(bind=engine)
-    yield
+    app.dependency_overrides[get_db] = override_get_db
+    app.dependency_overrides[get_current_user] = lambda: mock_user
+
+    mock_s_rule = StructuredRuleCreate(
+        rule_id="rule-001",
+        version="1.0",
+        applicability_conditions=[],
+        obligations=[],
+        exceptions=[],
+        severity=RuleSeverity.HIGH,
+        raw_ai_output="mock"
+    )
+    with patch.object(policy_interpreter, 'interpret', return_value=mock_s_rule):
+        yield
+
+    app.dependency_overrides.clear()
     Base.metadata.drop_all(bind=engine)
+
+client = TestClient(app)
 
 def test_create_workflow_event():
     response = client.post(

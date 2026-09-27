@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OmniNeura | Compliance Audit System",
+  title: "AllCognix | Compliance Audit System",
   description: "AI-Assisted Regulatory Compliance & Audit System",
 };
 

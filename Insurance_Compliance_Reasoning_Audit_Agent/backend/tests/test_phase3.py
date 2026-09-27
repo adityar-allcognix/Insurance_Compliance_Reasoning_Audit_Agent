@@ -6,9 +6,9 @@ from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.main import app, get_db, compliance_reasoner, policy_interpreter
+from app.main import app, get_db, get_current_user, compliance_reasoner, policy_interpreter
 from app.database import Base
-from app.models import RuleCategory, RuleSeverity, RuleStatus, DecisionOutcome, WorkflowType
+from app.models import RuleCategory, RuleSeverity, RuleStatus, DecisionOutcome, WorkflowType, User
 from app.schemas import StructuredRuleCreate
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test_phase3.db"
@@ -23,14 +23,17 @@ def override_get_db():
     finally:
         db.close()
 
-app.dependency_overrides[get_db] = override_get_db
+mock_user = User(id=1, username="test_admin")
 
 client = TestClient(app)
 
 @pytest.fixture(autouse=True)
 def setup_db():
     Base.metadata.create_all(bind=engine)
+    app.dependency_overrides[get_db] = override_get_db
+    app.dependency_overrides[get_current_user] = lambda: mock_user
     yield
+    app.dependency_overrides.clear()
     Base.metadata.drop_all(bind=engine)
 
 def test_audit_workflow_compliant():

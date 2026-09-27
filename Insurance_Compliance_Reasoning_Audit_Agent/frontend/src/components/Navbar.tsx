@@ -15,12 +15,13 @@ export default function Navbar() {
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <Link href="/dashboard" className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-indigo-500 rounded flex items-center justify-center">
-            <span className="text-lg font-bold">O</span>
+            <span className="text-lg font-bold">A</span>
           </div>
-          <span className="text-xl font-bold tracking-tight">OmniNeura</span>
+          <span className="text-xl font-bold tracking-tight">AllCognix</span>
         </Link>
         <div className="hidden md:flex space-x-8 flex-center">
           <Link href="/rules" className="text-slate-300 hover:text-white transition-colors text-sm font-medium">Rules</Link>
+          <Link href="/workflows" className="text-slate-300 hover:text-white transition-colors text-sm font-medium">Workflows</Link>
           <Link href="/audit" className="text-slate-300 hover:text-white transition-colors text-sm font-medium">Audit Trail</Link>
           <Link href="/metrics" className="text-slate-300 hover:text-white transition-colors text-sm font-medium">Metrics</Link>
         </div>

@@ -85,25 +85,26 @@ export default function WorkflowsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-1">
             <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
-              <h2 className="text-xl font-semibold mb-4">Submit Workflow Event</h2>
+              <h2 className="text-xl font-bold text-slate-900 mb-4">Submit Workflow Event</h2>
               {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700">Workflow ID</label>
+                  <label className="block text-sm font-semibold text-slate-700">Workflow ID</label>
                   <input
                     type="text"
                     value={newWorkflow.workflow_id}
                     onChange={(e) => setNewWorkflow({...newWorkflow, workflow_id: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border"
+                    placeholder="e.g. WF-DEMO-01"
+                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2.5 border text-slate-900 bg-white placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700">Type</label>
+                  <label className="block text-sm font-semibold text-slate-700">Type</label>
                   <select
                     value={newWorkflow.workflow_type}
                     onChange={(e) => setNewWorkflow({...newWorkflow, workflow_type: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border"
+                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2.5 border text-slate-900 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
                   >
                     <option value="CLAIM_PROCESSING">CLAIM_PROCESSING</option>
                     <option value="POLICY_ISSUANCE">POLICY_ISSUANCE</option>
@@ -112,21 +113,22 @@ export default function WorkflowsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700">Actor ID</label>
+                  <label className="block text-sm font-semibold text-slate-700">Actor ID</label>
                   <input
                     type="text"
                     value={newWorkflow.actor_id}
                     onChange={(e) => setNewWorkflow({...newWorkflow, actor_id: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border"
+                    placeholder="e.g. adjuster_01"
+                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2.5 border text-slate-900 bg-white placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700">Attributes (JSON)</label>
+                  <label className="block text-sm font-semibold text-slate-700">Attributes (JSON)</label>
                   <textarea
                     value={newWorkflow.attributes}
                     onChange={(e) => setNewWorkflow({...newWorkflow, attributes: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border h-32 font-mono text-sm"
+                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2.5 border h-32 font-mono text-sm text-slate-900 bg-white placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
                     required
                   />
                 </div>
@@ -174,42 +176,42 @@ export default function WorkflowsPage() {
             </div>
 
             {auditResults && (
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-semibold">Audit Result: {auditResults.workflow_id}</h2>
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-100">
+                  <h2 className="text-xl font-bold text-slate-900">Audit Result: {auditResults.workflow_id}</h2>
                   <a 
                     href={`/audit?id=${auditResults.workflow_id}`}
-                    className="text-sm text-indigo-600 hover:underline"
+                    className="text-sm font-semibold text-indigo-600 hover:text-indigo-800 hover:underline"
                   >
-                    View in Audit Trail
+                    View in Audit Trail →
                   </a>
                 </div>
-                <div className={`p-4 rounded-md mb-4 ${
-                  auditResults.decision === 'COMPLIANT' ? 'bg-green-50 text-green-800 border border-green-200' :
-                  auditResults.decision === 'NON_COMPLIANT' ? 'bg-red-50 text-red-800 border border-red-200' :
-                  'bg-yellow-50 text-yellow-800 border border-yellow-200'
+                <div className={`p-4 rounded-lg mb-5 border ${
+                  auditResults.decision === 'COMPLIANT' ? 'bg-emerald-50 text-emerald-950 border-emerald-300' :
+                  auditResults.decision === 'NON_COMPLIANT' ? 'bg-rose-50 text-rose-950 border-rose-300' :
+                  'bg-amber-50 text-amber-950 border-amber-300'
                 }`}>
-                  <p className="font-bold">Decision: {auditResults.decision}</p>
+                  <p className="font-extrabold text-base">Decision: <span className="underline decoration-2">{auditResults.decision}</span></p>
                   {auditResults.violated_rules.length > 0 && (
-                    <p className="mt-2">Violated Rules: {auditResults.violated_rules.join(', ')}</p>
+                    <p className="mt-2 text-sm font-semibold text-rose-800">Violated Rules: {auditResults.violated_rules.join(', ')}</p>
                   )}
                 </div>
-                <h3 className="font-semibold mb-2">Reasoning Trace:</h3>
+                <h3 className="text-base font-bold text-slate-900 mb-3">Reasoning Trace:</h3>
                 <div className="space-y-3">
                   {auditResults.reasoning_trace.map((trace: any, idx: number) => (
-                    <div key={idx} className="bg-slate-50 p-3 rounded border border-slate-200">
-                      <p className="font-medium text-slate-800 mb-2">Rule: {trace.rule_id}</p>
-                      <div className="space-y-2">
+                    <div key={idx} className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                      <p className="font-bold text-slate-900 mb-2 text-sm">Rule: {trace.rule_id}</p>
+                      <div className="space-y-2.5">
                         {trace.steps?.map((s: any, sIdx: number) => (
-                          <div key={sIdx} className="text-xs border-l-2 border-slate-300 pl-2">
-                            <span className="font-semibold text-slate-700">{s.step}:</span>
-                            <span className={`ml-2 ${
-                              s.result === 'Applicable' || s.result === 'Conditions Met' || s.result === 'Obligations Fulfilled' || s.result === 'No Violation' ? 'text-green-600' : 
-                              s.result === 'Failed' || s.result === 'Violation Detected' ? 'text-red-600' : 'text-slate-600'
+                          <div key={sIdx} className="text-xs border-l-2 border-slate-400 pl-3 py-0.5">
+                            <span className="font-bold text-slate-900">{s.step}:</span>
+                            <span className={`ml-2 font-bold ${
+                              s.result === 'Applicable' || s.result === 'Conditions Met' || s.result === 'Obligations Fulfilled' || s.result === 'No Violation' || s.result === 'NO VIOLATION' ? 'text-emerald-700' : 
+                              s.result === 'Failed' || s.result === 'Violation Detected' || s.result === 'NON_COMPLIANT' ? 'text-rose-700' : 'text-slate-800'
                             }`}>
                               {s.result}
                             </span>
-                            {s.detail && <p className="text-slate-500 mt-0.5 italic">{s.detail}</p>}
+                            {s.detail && <p className="text-slate-700 mt-1 font-medium leading-relaxed">{s.detail}</p>}
                           </div>
                         ))}
                       </div>

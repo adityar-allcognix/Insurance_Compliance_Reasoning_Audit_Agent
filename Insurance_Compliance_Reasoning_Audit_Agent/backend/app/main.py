@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+import bcrypt
 import logging
 import time
 from . import models, schemas, database, agents, engine
@@ -28,12 +28,13 @@ LATENCY_DATA = []
 RULE_COVERAGE = {}
 START_TIME = time.time()
 
+import os
+
 # Auth Configuration
-SECRET_KEY = "super-secret-compliance-key"  # In production, use env var
+SECRET_KEY = os.getenv("SECRET_KEY", "super-secret-compliance-key")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 app = FastAPI(title="Insurance Compliance Audit System")
@@ -94,12 +95,15 @@ def get_db():
 
 
 # Auth Helpers
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    try:
+        return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
+    except Exception:
+        return False
 
 
-def get_password_hash(password):
-    return pwd_context.hash(password)
+def get_password_hash(password: str) -> str:
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
@@ -438,6 +442,8 @@ def replay_decision(
     ).filter(
         models.WorkflowEvent.submitted_at <= old_decision.created_at
     ).order_by(models.WorkflowEvent.submitted_at.desc()).first()
+    if not event:
+        raise HTTPException(status_code=404, detail="Workflow event for this decision not found")
 
     # Get the specific rule versions used
     structured_rules = []
@@ -548,7 +554,8 @@ def read_structured_rules(rule_id: str, db: Session = Depends(get_db)):
 def update_compliance_rule(
     rule_id: str,
     rule_update: schemas.ComplianceRuleCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
 ):
     db_rule = db.query(models.ComplianceRule).filter(
         models.ComplianceRule.rule_id == rule_id

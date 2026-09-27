@@ -62,18 +62,14 @@ function AuditContent() {
   const handleViewDetails = async (decision: any) => {
     setSelectedDecision(decision);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/workflows/${decision.workflow_id}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
+      const response = await api.getWorkflow(decision.workflow_id);
       if (response.ok) {
         const data = await response.json();
         // Find the event that matches the decision time or is just before it
         setWorkflowEvent(data[0]); // For now just take the first one
       }
-    } catch (err) {
-      console.error('Failed to fetch workflow event', err);
+    } catch {
+      setError('Failed to fetch workflow event details');
     }
   };
 
@@ -117,7 +113,7 @@ function AuditContent() {
               placeholder="Enter Workflow ID (leave empty to see all)"
               value={workflowId}
               onChange={(e) => setWorkflowId(e.target.value)}
-              className="flex-1 rounded-md border-slate-300 shadow-sm p-2 border text-gray-500"
+              className="flex-1 rounded-lg border-slate-300 shadow-sm p-2.5 border text-slate-900 bg-white placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
             />
             <button
               type="submit"
@@ -145,7 +141,7 @@ function AuditContent() {
                 }`}
               >
                 <div className="flex justify-between items-start mb-2">
-                  <span className="text-xs font-bold text-slate-400 uppercase">ID: {decision.id}</span>
+                  <span className="text-xs font-bold text-slate-600 uppercase">ID: {decision.id}</span>
                   <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                     decision.decision === 'COMPLIANT' ? 'bg-green-100 text-green-800' :
                     decision.decision === 'NON_COMPLIANT' ? 'bg-red-100 text-red-800' :
@@ -155,7 +151,7 @@ function AuditContent() {
                   </span>
                 </div>
                 <p className="text-sm font-semibold text-slate-900 truncate">Workflow: {decision.workflow_id}</p>
-                <p className="text-xs text-slate-600 mt-1 font-medium">{new Date(decision.created_at).toLocaleString()}</p>
+                <p className="text-xs text-slate-700 mt-1 font-medium">{new Date(decision.created_at).toLocaleString()}</p>
               </div>
             ))}
           </div>
@@ -167,7 +163,7 @@ function AuditContent() {
                 <div className="flex justify-between items-start mb-6">
                   <div>
                     <h2 className="text-2xl font-bold text-slate-900">Audit Detail</h2>
-                    <p className="text-slate-700 font-medium">Workflow ID: {selectedDecision.workflow_id}</p>
+                    <p className="text-slate-800 font-medium">Workflow ID: {selectedDecision.workflow_id}</p>
                   </div>
                   <div className="flex gap-2">
                     <button 
@@ -182,22 +178,22 @@ function AuditContent() {
                 <div className="space-y-8">
                   {/* Event Data */}
                   <div>
-                    <h3 className="text-sm font-bold text-slate-600 uppercase mb-3 border-b pb-1">Workflow Event Data</h3>
+                    <h3 className="text-sm font-bold text-slate-800 uppercase mb-3 border-b pb-1">Workflow Event Data</h3>
                     {workflowEvent ? (
                       <div className="bg-slate-50 p-4 rounded border border-slate-100 space-y-3">
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <p className="text-xs text-slate-600 font-bold uppercase">Type</p>
-                            <p className="text-sm font-semibold text-slate-800">{workflowEvent.workflow_type}</p>
+                            <p className="text-xs text-slate-700 font-bold uppercase">Type</p>
+                            <p className="text-sm font-semibold text-slate-900">{workflowEvent.workflow_type}</p>
                           </div>
                           <div>
-                            <p className="text-xs text-slate-600 font-bold uppercase">Actor</p>
-                            <p className="text-sm font-semibold text-slate-800">{workflowEvent.actor_id}</p>
+                            <p className="text-xs text-slate-700 font-bold uppercase">Actor</p>
+                            <p className="text-sm font-semibold text-slate-900">{workflowEvent.actor_id}</p>
                           </div>
                         </div>
                         <div>
-                          <p className="text-xs text-slate-600 font-bold uppercase mb-1">Attributes</p>
-                          <pre className="text-xs bg-white p-3 rounded border border-slate-200 overflow-x-auto font-mono text-slate-800">
+                          <p className="text-xs text-slate-700 font-bold uppercase mb-1">Attributes</p>
+                          <pre className="text-xs bg-white p-3 rounded border border-slate-200 overflow-x-auto font-mono text-slate-900 font-medium">
                             {JSON.stringify(workflowEvent.attributes, null, 2)}
                           </pre>
                         </div>
@@ -209,10 +205,10 @@ function AuditContent() {
 
                   {/* Reasoning Trace */}
                   <div>
-                    <h3 className="text-sm font-bold text-slate-600 uppercase mb-3 border-b pb-1">AI Reasoning Trace</h3>
+                    <h3 className="text-sm font-bold text-slate-800 uppercase mb-3 border-b pb-1">AI Reasoning Trace</h3>
                     <div className="space-y-4">
                       {selectedDecision.reasoning_trace.length === 0 && (
-                        <p className="text-sm text-slate-500 italic">No reasoning steps recorded for this audit.</p>
+                        <p className="text-sm text-slate-700 italic">No reasoning steps recorded for this audit.</p>
                       )}
                       {selectedDecision.reasoning_trace.map((trace: any, idx: number) => {
                         // Handle legacy or specific error formats
@@ -232,8 +228,8 @@ function AuditContent() {
                         return (
                           <div key={idx} className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
                             <div className="flex justify-between items-center mb-3">
-                              <p className="font-bold text-slate-800">{trace.rule_id || 'Unknown Rule'}</p>
-                              <span className="text-xs text-slate-600 font-bold">
+                              <p className="font-bold text-slate-900">{trace.rule_id || 'Unknown Rule'}</p>
+                              <span className="text-xs text-slate-700 font-bold">
                                 {trace.rule_id && selectedDecision.rule_versions[trace.rule_id] ? `v${selectedDecision.rule_versions[trace.rule_id]}` : ''}
                               </span>
                             </div>
@@ -247,11 +243,11 @@ function AuditContent() {
                                     {sIdx < trace.steps.length - 1 && <div className="w-0.5 flex-1 bg-slate-200 my-1"></div>}
                                   </div>
                                   <div className="pb-2">
-                                    <p className="text-xs font-bold text-slate-800">{s.step}</p>
+                                    <p className="text-xs font-bold text-slate-900">{s.step}</p>
                                     <p className={`text-xs font-bold ${
                                       s.result?.includes('Failed') || s.result?.includes('Violation') || s.result?.includes('NON_COMPLIANT') ? 'text-red-700' : 'text-green-700'
                                     }`}>{s.result}</p>
-                                    {s.detail && <p className="text-xs text-slate-600 mt-0.5 italic font-medium">{s.detail}</p>}
+                                    {s.detail && <p className="text-xs text-slate-700 mt-0.5 font-medium">{s.detail}</p>}
                                   </div>
                                 </div>
                               ))}

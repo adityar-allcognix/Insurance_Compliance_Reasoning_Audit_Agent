@@ -1,26 +1,34 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import { api } from '@/lib/api';
 
 export default function Dashboard() {
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchStats = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.getDashboardStats();
+      if (response.ok) {
+        const data = await response.json();
+        setStats(data);
+      } else {
+        setError('Failed to fetch dashboard statistics.');
+      }
+    } catch {
+      // ponytail: graceful error banner on network failure; upgrade to auto-reconnect if needed
+      setError('Unable to connect to the backend server. Please ensure the backend is running at http://localhost:8000.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await api.getDashboardStats();
-        if (response.ok) {
-          const data = await response.json();
-          setStats(data);
-        }
-      } catch (err) {
-        console.error('Failed to fetch stats', err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchStats();
   }, []);
 
@@ -31,6 +39,18 @@ export default function Dashboard() {
       <Navbar />
       <main className="container mx-auto p-8">
         <h1 className="text-3xl font-bold text-slate-900 mb-8">Compliance Dashboard</h1>
+
+        {error && (
+          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between">
+            <span className="text-sm text-amber-800 font-medium">{error}</span>
+            <button
+              onClick={fetchStats}
+              className="px-3 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-sm font-semibold transition"
+            >
+              Retry
+            </button>
+          </div>
+        )}
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -107,8 +127,15 @@ export default function Dashboard() {
                 </thead>
                 <tbody className="divide-y divide-slate-200">
                   {stats?.recent_audits?.map((audit: any) => (
-                    <tr key={audit.id}>
-                      <td className="px-4 py-2 text-sm text-slate-900">{audit.workflow_id}</td>
+                    <tr key={audit.id} className="hover:bg-slate-50 transition-colors">
+                      <td className="px-4 py-2 text-sm font-medium">
+                        <Link 
+                          href={`/audit?id=${audit.workflow_id}`}
+                          className="text-indigo-600 hover:text-indigo-800 hover:underline transition-colors"
+                        >
+                          {audit.workflow_id}
+                        </Link>
+                      </td>
                       <td className="px-4 py-2 text-sm">
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${audit.decision === 'COMPLIANT' ? 'bg-green-100 text-green-800' :
                             audit.decision === 'NON_COMPLIANT' ? 'bg-red-100 text-red-800' :

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 from typing import Dict, Any, Optional, List
 from .models import (
@@ -26,8 +26,7 @@ class WorkflowEvent(WorkflowEventBase):
     id: int
     submitted_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ComplianceRuleBase(BaseModel):
@@ -47,8 +46,7 @@ class ComplianceRule(ComplianceRuleBase):
     id: int
     effective_from: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class StructuredRuleBase(BaseModel):
@@ -68,8 +66,7 @@ class StructuredRule(StructuredRuleBase):
     id: int
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ComplianceDecisionBase(BaseModel):
@@ -88,8 +85,7 @@ class ComplianceDecision(ComplianceDecisionBase):
     id: int
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class UserBase(BaseModel):
@@ -103,8 +99,7 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class Token(BaseModel):

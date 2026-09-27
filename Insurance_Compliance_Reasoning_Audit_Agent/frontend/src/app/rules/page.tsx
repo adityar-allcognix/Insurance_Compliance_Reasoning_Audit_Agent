@@ -43,8 +43,8 @@ export default function RulesPage() {
         const data = await response.json();
         setStructuredRules(data);
       }
-    } catch (err) {
-      console.error('Failed to load structured rules', err);
+    } catch {
+      setError('Failed to load structured rules');
     }
   };
 
@@ -89,16 +89,16 @@ export default function RulesPage() {
                     type="text"
                     value={newRule.rule_id}
                     onChange={(e) => setNewRule({...newRule, rule_id: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border text-gray-900"
+                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2.5 border text-slate-900 bg-white placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700">Category</label>
+                  <label className="block text-sm font-semibold text-slate-700">Category</label>
                   <select
                     value={newRule.category}
                     onChange={(e) => setNewRule({...newRule, category: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border text-gray-600"
+                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2.5 border text-slate-900 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
                   >
                     <option value="PRIVACY">PRIVACY</option>
                     <option value="SECURITY">SECURITY</option>
@@ -107,11 +107,11 @@ export default function RulesPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 ">Severity</label>
+                  <label className="block text-sm font-semibold text-slate-700">Severity</label>
                   <select
                     value={newRule.severity}
                     onChange={(e) => setNewRule({...newRule, severity: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border text-gray-600"
+                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2.5 border text-slate-900 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
                   >
                     <option value="LOW">LOW</option>
                     <option value="MEDIUM">MEDIUM</option>
@@ -119,21 +119,21 @@ export default function RulesPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700">Version</label>
+                  <label className="block text-sm font-semibold text-slate-700">Version</label>
                   <input
                     type="text"
                     value={newRule.version}
                     onChange={(e) => setNewRule({...newRule, version: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border text-gray-600"
+                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2.5 border text-slate-900 bg-white placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700">Rule Text</label>
+                  <label className="block text-sm font-semibold text-slate-700">Rule Text</label>
                   <textarea
                     value={newRule.rule_text}
                     onChange={(e) => setNewRule({...newRule, rule_text: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 border h-32"
+                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2.5 border h-32 text-slate-900 bg-white placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
                     required
                   />
                 </div>

@@ -40,6 +40,7 @@ export const api = {
     body: JSON.stringify(rule),
   }),
   getWorkflows: () => fetchWithAuth('/workflows/'),
+  getWorkflow: (workflowId: string) => fetchWithAuth(`/workflows/${workflowId}`),
   createWorkflow: (workflow: any) => fetchWithAuth('/workflows/', {
     method: 'POST',
     body: JSON.stringify(workflow),
@@ -54,6 +55,6 @@ export const api = {
   }),
   getDashboardStats: () => fetchWithAuth('/dashboard/stats'),
   getSystemMetrics: () => fetchWithAuth('/dashboard/metrics'),
-  getHealth: () => fetch('/health'), // Public endpoint
+  getHealth: () => fetch(`${API_BASE_URL}/health`), // Public endpoint
   getStructuredRules: (ruleId: string) => fetchWithAuth(`/rules/${ruleId}/structured`),
 };

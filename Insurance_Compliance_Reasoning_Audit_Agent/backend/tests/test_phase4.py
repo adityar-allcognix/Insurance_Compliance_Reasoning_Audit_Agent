@@ -6,9 +6,9 @@ from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.main import app, get_db, compliance_reasoner, policy_interpreter
+from app.main import app, get_db, get_current_user, compliance_reasoner, policy_interpreter
 from app.database import Base
-from app.models import RuleCategory, RuleSeverity, RuleStatus, DecisionOutcome
+from app.models import RuleCategory, RuleSeverity, RuleStatus, DecisionOutcome, User
 from app.schemas import StructuredRuleCreate
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test_phase4.db"
@@ -23,14 +23,17 @@ def override_get_db():
     finally:
         db.close()
 
-app.dependency_overrides[get_db] = override_get_db
+mock_user = User(id=1, username="test_admin")
 
 client = TestClient(app)
 
 @pytest.fixture(autouse=True)
 def setup_db():
     Base.metadata.create_all(bind=engine)
+    app.dependency_overrides[get_db] = override_get_db
+    app.dependency_overrides[get_current_user] = lambda: mock_user
     yield
+    app.dependency_overrides.clear()
     Base.metadata.drop_all(bind=engine)
 
 def test_decision_engine_logic():
@@ -83,6 +86,7 @@ def test_replay_capability():
     }
     with patch.object(compliance_reasoner, 'evaluate', return_value=mock_ai_eval):
         response = client.post("/workflows/wf-replay/audit")
+        assert response.status_code == 200
         decision_id = response.json()["id"]
 
     # 3. Replay
